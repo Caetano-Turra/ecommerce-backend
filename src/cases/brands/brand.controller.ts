@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, ParseUUIDPipe, Post, Put } from "@nestjs/common";
-import { Category } from "./category.entity";
+import { Category } from "./brand.entity";
 import { CategoryService } from "./category.service";
 
 @Controller('categories')
@@ -8,32 +8,32 @@ export class CategoryController {
     constructor(private service: CategoryService) {}
 
     @Get()
-    findAll(): Promise<Category[]>{
+    findAll(): Promise<brand[]>{
         return this.service.findAll();
     }
 
     @Get(':id')
-    async findById(@Param('id', ParseUUIDPipe)id: string): Promise<Category>{
+    async findById(@Param('id', ParseUUIDPipe)id: string): Promise<brand>{
         const found = await this.service.findById(id);
 
         if (!found) {
-            throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+            throw new HttpException('brand not found', HttpStatus.NOT_FOUND);
         }
 
         return found;
     }
 
     @Post()
-    create(@Body() category: Category) : Promise<Category> {
+    create(@Body() category: brand) : Promise<brand> {
         return this.service.save(category);
     }
 
     @Put('id')
-    async update(@Param('id', ParseUUIDPipe)id: string, @Body() category: Category) : Promise<Category> {
+    async update(@Param('id', ParseUUIDPipe)id: string, @Body() category: brand) : Promise<brand> {
         const found = await this.service.findById(id);
 
         if (!found) {
-            throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+            throw new HttpException('brand not found', HttpStatus.NOT_FOUND);
         }
         
         category.id = id;
@@ -47,7 +47,7 @@ export class CategoryController {
         const found = await this.service.findById(id);
 
         if (!found) {
-            throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+            throw new HttpException('brand not found', HttpStatus.NOT_FOUND);
         }
 
         return this.service.remove(id);
